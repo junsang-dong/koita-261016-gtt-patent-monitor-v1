@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "gtt-patent-monitor": {
+      "command": "./node_modules/.bin/tsx",
+      "args": ["--tsconfig", "tsconfig.json", "mcp/server.ts"]
+    }
+  }
+}

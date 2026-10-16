@@ -63,6 +63,42 @@ LNG 화물창 단열시스템(GTT 계열) 한국 특허를 수집·분류·분�
 | `npm run build` | 프로덕션 빌드 |
 | `npm run db:generate` | 스키마 변경 시 마이그레이션 SQL 생성 |
 
+## MCP 서버 (Claude 프롬프트 창에서 특허 검색·보고서 작성)
+
+앱의 DB·보고서 로직을 MCP(stdio) 서버로 노출합니다. Claude 대화창에서 "L2 층위의 유효 MK3 특허를 찾아 요약 보고서를 만들어줘"처럼 요청할 수 있습니다.
+
+| 도구 | 종류 | 설명 |
+|---|---|---|
+| `gtt_dashboard_summary` | 읽기 | 전체 건수, 상태·계열·층위 분포, 위험도 상, 연도별 추이 |
+| `gtt_search_patents` | 읽기 | 명칭 키워드 + 상태·계열·층위·위험도·검증·출원연도 필터 검색 |
+| `gtt_get_patent` | 읽기 | 서지, 분류 근거 단어, 청구항 분해, 상태 이력 |
+| `gtt_summary_report` | 읽기 | 필터 대상 수집 요약 보고서(.md) |
+| `gtt_claim_chart_report` | 읽기 | 청구항 분해 보고서(.md) |
+| `gtt_monitor_report` | 읽기 | 모니터링 회차 보고서·최근 이벤트 |
+| `gtt_analyze_claims` | **쓰기** | KIPRIS 청구항 조회 → Claude 구성요소 분해 → DB 저장·위험도 재계산 (API 비용 발생, 기존 분해 결과 덮어씀) |
+
+**연결 방법**
+
+- **Claude Code**: 저장소 루트의 `.mcp.json`이 자동으로 인식됩니다(최초 1회 승인). 저장소 폴더에서 실행하세요.
+- **Claude Desktop**: `claude_desktop_config.json`의 `mcpServers`에 아래를 추가하고(경로는 본인 환경에 맞게) 앱을 재시작합니다.
+
+```json
+{
+  "mcpServers": {
+    "gtt-patent-monitor": {
+      "command": "/절대경로/gtt-patent-app/node_modules/.bin/tsx",
+      "args": ["--tsconfig", "/절대경로/gtt-patent-app/tsconfig.json", "/절대경로/gtt-patent-app/mcp/server.ts"]
+    }
+  }
+}
+```
+
+**주의**
+
+- 서버는 프로젝트 루트의 `.env.local`(`DATABASE_URL` 등)을 읽습니다. 설정 값이 운영과 같은 DB를 가리키면 `gtt_analyze_claims`는 운영 데이터를 수정합니다. 키는 MCP 설정 파일에 넣지 않습니다.
+- `--tsconfig` 지정이 필요합니다. 없으면 다른 작업 폴더에서 `@/` 경로 별칭을 찾지 못해 서버가 바로 종료됩니다.
+- 모든 출력에는 고지 문구가 포함되며, 침해·무효 같은 법적 결론은 도구도 Claude 지침도 허용하지 않습니다.
+
 ## 배포 (Vercel)
 
 - GitHub 저장소를 Vercel에 Import (Framework: Next.js 자동 인식)
