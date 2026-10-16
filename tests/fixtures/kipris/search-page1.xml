@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+  <header><resultCode>00</resultCode><resultMsg>NORMAL SERVICE.</resultMsg></header>
+  <body>
+    <items>
+      <item>
+        <applicationNumber>10-2020-0012345</applicationNumber>
+        <applicationDate>20200205</applicationDate>
+        <inventionTitle>밀봉 단열 탱크</inventionTitle>
+        <applicantName>가즈트랑스포르 에 떼끄니가즈</applicantName>
+        <ipcNumber>F17C 3/04|B63B 25/16</ipcNumber>
+        <openNumber>10-2021-0100001</openNumber>
+        <openDate>20210816</openDate>
+        <registerNumber>1022027780000</registerNumber>
+        <registerDate>20210112</registerDate>
+        <registerStatus>등록</registerStatus>
+        <astrtCont>주름 멤브레인 탱크</astrtCont>
+      </item>
+      <item>
+        <applicationNumber>1020210054321</applicationNumber>
+        <applicationDate>2021.04.28</applicationDate>
+        <inventionTitle>단열 패널 충전판</inventionTitle>
+        <applicantName>GAZTRANSPORT ET TECHNIGAZ</applicantName>
+        <registerStatus>공개</registerStatus>
+      </item>
+      <item>
+        <applicationNumber>10-2020-0012345</applicationNumber>
+        <inventionTitle>밀봉 단열 탱크 (중복 표기)</inventionTitle>
+        <applicantName>GAZTRANSPORT & TECHNIGAZ</applicantName>
+        <registerStatus>등록</registerStatus>
+      </item>
+    </items>
+  </body>
+  <count><numOfRows>3</numOfRows><pageNo>1</pageNo><totalCount>554</totalCount></count>
+</response>

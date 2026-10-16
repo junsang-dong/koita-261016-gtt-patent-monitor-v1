@@ -1,0 +1,847 @@
+{
+  "id": "ed46e87f-2d2f-411d-98c1-dc049caddd72",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "gtt.applicant_aliases": {
+      "name": "applicant_aliases",
+      "schema": "gtt",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "alias": {
+          "name": "alias",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "active": {
+          "name": "active",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "last_hit_count": {
+          "name": "last_hit_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "applicant_aliases_alias_unique": {
+          "name": "applicant_aliases_alias_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "alias"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "gtt.claim_charts": {
+      "name": "claim_charts",
+      "schema": "gtt",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "app_no": {
+          "name": "app_no",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "claim_no": {
+          "name": "claim_no",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "other_independent": {
+          "name": "other_independent",
+          "type": "integer[]",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "elements": {
+          "name": "elements",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "element_count": {
+          "name": "element_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "key_limiting": {
+          "name": "key_limiting",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "review_ideas": {
+          "name": "review_ideas",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "claim_source": {
+          "name": "claim_source",
+          "type": "claim_source",
+          "typeSchema": "gtt",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "model": {
+          "name": "model",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "prompt_version": {
+          "name": "prompt_version",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "claim_charts_app_no_patents_app_no_fk": {
+          "name": "claim_charts_app_no_patents_app_no_fk",
+          "tableFrom": "claim_charts",
+          "tableTo": "patents",
+          "schemaTo": "gtt",
+          "columnsFrom": [
+            "app_no"
+          ],
+          "columnsTo": [
+            "app_no"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "gtt.classifications": {
+      "name": "classifications",
+      "schema": "gtt",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "app_no": {
+          "name": "app_no",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "family": {
+          "name": "family",
+          "type": "family",
+          "typeSchema": "gtt",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "layer": {
+          "name": "layer",
+          "type": "layer",
+          "typeSchema": "gtt",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "evidence": {
+          "name": "evidence",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "confidence": {
+          "name": "confidence",
+          "type": "numeric(4, 3)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "model": {
+          "name": "model",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "prompt_version": {
+          "name": "prompt_version",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "source": {
+          "name": "source",
+          "type": "class_source",
+          "typeSchema": "gtt",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'AI'"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "classifications_app_no_patents_app_no_fk": {
+          "name": "classifications_app_no_patents_app_no_fk",
+          "tableFrom": "classifications",
+          "tableTo": "patents",
+          "schemaTo": "gtt",
+          "columnsFrom": [
+            "app_no"
+          ],
+          "columnsTo": [
+            "app_no"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "gtt.monitor_events": {
+      "name": "monitor_events",
+      "schema": "gtt",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "run_id": {
+          "name": "run_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "app_no": {
+          "name": "app_no",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "type": {
+          "name": "type",
+          "type": "event_type",
+          "typeSchema": "gtt",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "before": {
+          "name": "before",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "after": {
+          "name": "after",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "acknowledged": {
+          "name": "acknowledged",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "monitor_events_run_id_monitor_runs_id_fk": {
+          "name": "monitor_events_run_id_monitor_runs_id_fk",
+          "tableFrom": "monitor_events",
+          "tableTo": "monitor_runs",
+          "schemaTo": "gtt",
+          "columnsFrom": [
+            "run_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "monitor_events_app_no_patents_app_no_fk": {
+          "name": "monitor_events_app_no_patents_app_no_fk",
+          "tableFrom": "monitor_events",
+          "tableTo": "patents",
+          "schemaTo": "gtt",
+          "columnsFrom": [
+            "app_no"
+          ],
+          "columnsTo": [
+            "app_no"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "gtt.monitor_runs": {
+      "name": "monitor_runs",
+      "schema": "gtt",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "trigger": {
+          "name": "trigger",
+          "type": "run_trigger",
+          "typeSchema": "gtt",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "started_at": {
+          "name": "started_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "finished_at": {
+          "name": "finished_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "state": {
+          "name": "state",
+          "type": "run_state",
+          "typeSchema": "gtt",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'RUNNING'"
+        },
+        "cursor": {
+          "name": "cursor",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "stats": {
+          "name": "stats",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "api_calls": {
+          "name": "api_calls",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "error": {
+          "name": "error",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "report_md": {
+          "name": "report_md",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "gtt.patent_status_history": {
+      "name": "patent_status_history",
+      "schema": "gtt",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "app_no": {
+          "name": "app_no",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "run_id": {
+          "name": "run_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "field": {
+          "name": "field",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "before": {
+          "name": "before",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "after": {
+          "name": "after",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "detected_at": {
+          "name": "detected_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "patent_status_history_app_no_patents_app_no_fk": {
+          "name": "patent_status_history_app_no_patents_app_no_fk",
+          "tableFrom": "patent_status_history",
+          "tableTo": "patents",
+          "schemaTo": "gtt",
+          "columnsFrom": [
+            "app_no"
+          ],
+          "columnsTo": [
+            "app_no"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "patent_status_history_run_id_monitor_runs_id_fk": {
+          "name": "patent_status_history_run_id_monitor_runs_id_fk",
+          "tableFrom": "patent_status_history",
+          "tableTo": "monitor_runs",
+          "schemaTo": "gtt",
+          "columnsFrom": [
+            "run_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "gtt.patents": {
+      "name": "patents",
+      "schema": "gtt",
+      "columns": {
+        "app_no": {
+          "name": "app_no",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "app_date": {
+          "name": "app_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "applicant": {
+          "name": "applicant",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ipc": {
+          "name": "ipc",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "pub_no": {
+          "name": "pub_no",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "pub_date": {
+          "name": "pub_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "reg_no": {
+          "name": "reg_no",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "reg_date": {
+          "name": "reg_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status_group": {
+          "name": "status_group",
+          "type": "status_group",
+          "typeSchema": "gtt",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "abstract": {
+          "name": "abstract",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "family": {
+          "name": "family",
+          "type": "family",
+          "typeSchema": "gtt",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'UNCLASSIFIED'"
+        },
+        "layer": {
+          "name": "layer",
+          "type": "layer",
+          "typeSchema": "gtt",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'UNCLASSIFIED'"
+        },
+        "risk": {
+          "name": "risk",
+          "type": "risk",
+          "typeSchema": "gtt",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "risk_provisional": {
+          "name": "risk_provisional",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": true
+        },
+        "verified": {
+          "name": "verified",
+          "type": "verified",
+          "typeSchema": "gtt",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'UNVERIFIED'"
+        },
+        "first_seen": {
+          "name": "first_seen",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "last_checked": {
+          "name": "last_checked",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "raw": {
+          "name": "raw",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "patents_status_risk_idx": {
+          "name": "patents_status_risk_idx",
+          "columns": [
+            {
+              "expression": "status_group",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "risk",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "patents_family_layer_idx": {
+          "name": "patents_family_layer_idx",
+          "columns": [
+            {
+              "expression": "family",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "layer",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "patents_app_date_idx": {
+          "name": "patents_app_date_idx",
+          "columns": [
+            {
+              "expression": "app_date",
+              "isExpression": false,
+              "asc": false,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "patents_title_trgm_idx": {
+          "name": "patents_title_trgm_idx",
+          "columns": [
+            {
+              "expression": "\"title\" gin_trgm_ops",
+              "asc": true,
+              "isExpression": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "gin",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "gtt.settings": {
+      "name": "settings",
+      "schema": "gtt",
+      "columns": {
+        "key": {
+          "name": "key",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "value": {
+          "name": "value",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {
+    "gtt.claim_source": {
+      "name": "claim_source",
+      "schema": "gtt",
+      "values": [
+        "API",
+        "MANUAL_INPUT"
+      ]
+    },
+    "gtt.class_source": {
+      "name": "class_source",
+      "schema": "gtt",
+      "values": [
+        "AI",
+        "MANUAL"
+      ]
+    },
+    "gtt.event_type": {
+      "name": "event_type",
+      "schema": "gtt",
+      "values": [
+        "NEW",
+        "STATUS_CHANGED",
+        "REG_NO_ASSIGNED"
+      ]
+    },
+    "gtt.family": {
+      "name": "family",
+      "schema": "gtt",
+      "values": [
+        "NO96",
+        "MK3",
+        "FLEX",
+        "SLIM",
+        "GST",
+        "ETC",
+        "UNCLASSIFIED"
+      ]
+    },
+    "gtt.layer": {
+      "name": "layer",
+      "schema": "gtt",
+      "values": [
+        "L1",
+        "L2",
+        "L3",
+        "L4",
+        "UNCLASSIFIED"
+      ]
+    },
+    "gtt.risk": {
+      "name": "risk",
+      "schema": "gtt",
+      "values": [
+        "HIGH",
+        "MID",
+        "LOW"
+      ]
+    },
+    "gtt.run_state": {
+      "name": "run_state",
+      "schema": "gtt",
+      "values": [
+        "RUNNING",
+        "DONE",
+        "FAILED",
+        "PARTIAL"
+      ]
+    },
+    "gtt.run_trigger": {
+      "name": "run_trigger",
+      "schema": "gtt",
+      "values": [
+        "CRON",
+        "MANUAL"
+      ]
+    },
+    "gtt.status_group": {
+      "name": "status_group",
+      "schema": "gtt",
+      "values": [
+        "valid",
+        "pending",
+        "inactive"
+      ]
+    },
+    "gtt.verified": {
+      "name": "verified",
+      "schema": "gtt",
+      "values": [
+        "API",
+        "WEB",
+        "UNVERIFIED"
+      ]
+    }
+  },
+  "schemas": {
+    "gtt": "gtt"
+  },
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}
